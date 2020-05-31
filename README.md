@@ -104,39 +104,39 @@ public T visitDocument(XMLParser.DocumentContext ctx) {
 pay special attention to ErrorNodeImpl.
 
 ```java
-	public T visitDocument(XMLParser.DocumentContext ctx) {
-		String parent = "null", grandparent = "null", greatparent = "null", sibling = "null";
-		if (ctx.getParent() != null) {
-			parent = ctx.getParent().getClass().getSimpleName();
-			if (ctx.getParent().getParent() != null) {
-				grandparent = ctx.getParent().getParent().getClass().getSimpleName();
-				if (ctx.getParent().getParent().getParent() != null) {
-					greatparent = ctx.getParent().getParent().getParent().getClass().getSimpleName();
-				}
-			}
-			if (ctx.getParent().getChild(0) != null) {
-				// sibling = ctx.getParent().getChild(0).getClass().getSimpleName();
+public T visitDocument(XMLParser.DocumentContext ctx) {
+	String parent = "null", grandparent = "null", greatparent = "null", sibling = "null";
+	if (ctx.getParent() != null) {
+		parent = ctx.getParent().getClass().getSimpleName();
+		if (ctx.getParent().getParent() != null) {
+			grandparent = ctx.getParent().getParent().getClass().getSimpleName();
+			if (ctx.getParent().getParent().getParent() != null) {
+				greatparent = ctx.getParent().getParent().getParent().getClass().getSimpleName();
 			}
 		}
-		String rule = "<" + greatparent + "," + grandparent + "," + parent + "," + sibling + ">";
-		rule += ctx.getClass().getSimpleName() + "->";
-		if (ctx.getChildCount() > 0 && ctx.getChildCount() < JSPCSGLearner.maxChildCount) {
-			for (int i = 0; i < ctx.children.size(); i++) {
-				if (ctx.getChild(i).getClass().getSimpleName().equals("TerminalNodeImpl")) {
-					rule += ctx.getChild(i).getText().length() > JSPCSGLearner.maxChildLength
-							? ctx.getChild(i).getText().substring(0, JSPCSGLearner.maxChildLength).trim()
-							: ctx.getChild(i).getText().trim();
-				} else if (!ctx.getChild(i).getClass().getSimpleName().equals("ErrorNodeImpl")){
-					rule += "@@@@@" + ctx.getChild(i).getClass().getSimpleName() + "#####";
-				}
-			}
-		} else {
-			return visitChildren(ctx);
+		if (ctx.getParent().getChild(0) != null) {
+			// sibling = ctx.getParent().getChild(0).getClass().getSimpleName();
 		}
-		// System.out.println(rule);
-		JSPCSGLearner.updateParentCount(ctx.getClass().getSimpleName());
-		JSPCSGLearner.updateRuleCount(rule);
+	}
+	String rule = "<" + greatparent + "," + grandparent + "," + parent + "," + sibling + ">";
+	rule += ctx.getClass().getSimpleName() + "->";
+	if (ctx.getChildCount() > 0 && ctx.getChildCount() < JSPCSGLearner.maxChildCount) {
+		for (int i = 0; i < ctx.children.size(); i++) {
+			if (ctx.getChild(i).getClass().getSimpleName().equals("TerminalNodeImpl")) {
+				rule += ctx.getChild(i).getText().length() > JSPCSGLearner.maxChildLength
+						? ctx.getChild(i).getText().substring(0, JSPCSGLearner.maxChildLength).trim()
+						: ctx.getChild(i).getText().trim();
+			} else if (!ctx.getChild(i).getClass().getSimpleName().equals("ErrorNodeImpl")){
+				rule += "@@@@@" + ctx.getChild(i).getClass().getSimpleName() + "#####";
+			}
+		}
+	} else {
 		return visitChildren(ctx);
+	}
+	// System.out.println(rule);
+	JSPCSGLearner.updateParentCount(ctx.getClass().getSimpleName());
+	JSPCSGLearner.updateRuleCount(rule);
+	return visitChildren(ctx);
 }	
 ```
 
