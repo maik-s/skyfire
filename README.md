@@ -1,5 +1,29 @@
 # Skyfire
 
+## Docker image
+
+This repository dockerized the original skyfire code.
+In order to use the docker image first build the image with the following command:
+
+	git clone https://github.com/maik-s/skyfire.git
+	docker build . --tag=skyfire
+
+Now you can learn the PCSG from a given set of input files by using docker-compose
+
+Attention: This docker image is only configured to learn/generate XML files. In case you want to learn the PCSG of VBS or JS you need first to compile the respective classes by modifying the `Dockerfile` and then adapt the `entrypoint.sh`.
+
+### Learning the PCSG
+
+In order to learn the PCSG of XML files place the seeds into `seeds/xml` and assure the `docker-compose.yml` contains the line `command: /skyfire/entrypoint.sh learn`
+
+### Generating sample files
+
+Generating files is easy as well. Just change the parameter `learn` (from `entrypoint.sh` ) to `generate` in the `docker-compose.yml`.
+If not done already, shut down the previously started container (`docker-compose down`) and bring it back up with `docker-compose up`.
+
+In the following you'll find the original readme. See section "Run Generator class to generate samples" for further options for configuration. Keep in mind to rebuild the docker image that your changes take effect.
+
+
 ## Generate Lexer, Parser, Visitor automatically
 
 add `antlr-4.7-complete.jar` to classpath
@@ -156,3 +180,7 @@ static int maxDerivationDepth = 8;		// the max iteration depth of derivation
 int numOfSamplesToGenerate = 10; 		// the number of seeds to generate
 String outputPath = "E:\\xml_gen\\";	//the path to save generated seeds
 ```
+
+# Custom XML files
+
+	find . -type f -name "*xml*" -exec bash -c 'mv "$0" "$(echo "$0" | cut -d " " -f1).xml" ' {}  \;

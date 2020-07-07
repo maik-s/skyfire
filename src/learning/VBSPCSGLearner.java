@@ -34,13 +34,13 @@ public class VBSPCSGLearner {
 	public static boolean parsingError = false;
 
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/pcsg";
-	static final String USER = "test";
+	static final String DB_URL = "jdbc:mysql://db:3306/pcsg";
+	static final String USER = "skyfire";
 	static final String PASS = "1234";
 
 	public static void main(String[] args) {
 		// 1. traverse a folder with samples,.e.g.xml samples
-		String sampleFolderPath = "C:\\Users\\xiang\\Desktop\\vbs\\";
+		String sampleFolderPath = "/skyfire/vbs_seeds";
 		File dir = new File(sampleFolderPath);
 		File[] files = dir.listFiles();
 		if (files != null) {

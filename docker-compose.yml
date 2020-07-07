@@ -1,0 +1,34 @@
+version: '2'
+
+volumes:
+    skyfire_db:
+
+services:
+  db:
+    image: mariadb
+    command: --init-file /skyfire/init.sql --transaction-isolation=READ-COMMITTED --binlog-format=ROW 
+    restart: always
+    volumes:
+      - skyfire_db:/var/lib/mysql
+      - .:/skyfire
+    environment:
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_PASSWORD=1234
+      - MYSQL_DATABASE=pcsg
+      - MYSQL_USER=skyfire
+
+  app:
+    image: skyfire
+    links:
+      - db
+    command: /skyfire/entrypoint.sh learn
+    depends_on:
+      - db
+    volumes:
+      - ./seeds/xml/:/skyfire/xml_seeds
+      - ./seeds/js/:/skyfire/js_seeds
+      - ./seeds/vbs/:/skyfire/vbs_seeds
+      - ./gen/xml:/skyfire/xml_output
+      - ./gen/js:/skyfire/js_output
+      - ./gen/vbs:/skyfire/vbs_output
+    restart: "no"

@@ -19,11 +19,11 @@ public class XMLGenerator {
 	static int numofDerivation = 0;
 	static int maxDerivationDepth = 8;
 	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://localhost:3306/pcsg";
-	static final String USER = "test";
+	static final String DB_URL = "jdbc:mysql://db:3306/pcsg";
+	static final String USER = "skyfire";
 	static final String PASS = "1234";
 	static Random rand = new Random();
-	static String outputPath = "E:\\xml_gen\\";
+	static String outputPath = "/skyfire/xml_output/";
 
 	static Map<String, Double> rulesProb = new TreeMap<String, Double>();
 	static List<Map.Entry<String, Double>> rules = null;
